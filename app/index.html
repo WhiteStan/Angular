@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-controller="Todo as $ctrl">
+<head>
+	<meta charset="utf-8">
+	<title>{{::$ctrl.todo.user}}'s TO DO List</title>
+	<link href="vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="vendor/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+</head>
+<body >
+	<div class="container">
+		<div class="page-header">
+			<h1><img class="photo" src="images/VZ.jpg">
+				{{$ctrl.todo.user}}'s To Do List
+			</h1>
+		</div>
+		<div class="panel">
+			<form novalidate name="newTask">
+				<div class="form-group">
+					<label for="action">Action:</label>
+					<div class="input-group">
+						<input id="action"
+						name="action"
+						class="form-control"
+						ng-model="$ctrl.newItem.action"/>
+						<span class="input-group-btn">
+							<button class="btn btn-primary"
+							ng-click="$ctrl.addNewItem($ctrl.todo.items,
+							$ctrl.newItem)"
+							ng-disabled="!$ctrl.newItem.action">
+							Add
+						</button>
+						</span>
+					</div>
+					<input
+					style="max-width: 10%;"
+					name="action"
+					class="form-control"
+					ng-model="$ctrl.filterItem.action"/>
+				</div>
+			</form>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> To Do List
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>
+								<a href="#" ng-click="$ctrl.itemOrder == 'action'? $ctrl.orderWay = !$ctrl.orderWay : $ctrl.itemOrder = 'action'">
+									Description
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="$ctrl.itemOrder == 'done'? $ctrl.orderWay = !$ctrl.orderWay : $ctrl.itemOrder = 'done'">
+									Done
+								</a>
+							</th>
+							<th class="text-right">Commands</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in $ctrl.todo.items |
+						filterItem: $ctrl.filterItem | orderBy: $ctrl.itemOrder: $ctrl.orderWay">
+							<td>{{item.action}}</td>
+							<td>{{item.done ? "Yes" : "No"}}</td>
+							<td class="text-right">
+								<button type="button"
+										class="btn btn-primary">
+									<span class="glyphicon glyphicon-edit"
+									aria-hidden="true"
+									title="Edit"></span>
+								</button>
+								<button type="button"
+										class="btn btn-danger">
+									<span class="glyphicon glyphicon-trash"
+									aria-hidden="true"
+									title="Delete"
+									ng-click="$ctrl.deleteItem($ctrl.todo.items,
+									item)"></span>
+								</button>
+							</td>
+					</tbody>
+				</table>
+
+				<label>
+					<input type="checkbox" ng-model="$ctrl.showComplete"> Show Complete
+				</label>
+			</div>
+		</div>
+	</div>
+	<script src="vendor/angular/angular.min.js"></script>
+	<script src="app.js"/></script>
+</body>
+</html>
